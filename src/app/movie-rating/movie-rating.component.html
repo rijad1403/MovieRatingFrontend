@@ -1,0 +1,44 @@
+<div class="row justify-content-center mt-5">
+  <div class="col-lg-6">
+    <h2 class="text-center">Rate movies and tv shows</h2>
+    <div class="spinner-border text-primary m-auto d-block mt-3" role="status" *ngIf="loader">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+</div>
+
+<div class="row justify-content-center mt-5" *ngIf="!loader">
+  <div class="col-lg-2 mb-4" *ngFor="let item of media">
+    <div class="card ">
+      <img src="{{apiUrl}}/MediaImages/{{item.coverImage}}" class="card-img-top" style="height: 300px;">
+      <div class="card-body">
+        <h5 class="card-title">{{item.title}}</h5>
+        <p class="fw-bold">Overal rating:
+          {{item.overallRating}}
+        </p>
+        <span class="span-container" style="position: relative;">
+          <span>
+            <i class="fas fa-star text-warning"></i>
+            <i class="fas fa-star text-warning"></i>
+            <i class="fas fa-star text-warning"></i>
+            <i class="fas fa-star text-warning"></i>
+            <i class="fas fa-star text-warning"></i>
+          </span>
+          <span class="cover-span movie{{item.id}}" style="width: 30px;">
+          </span>
+        </span>
+        <div class="mt-3">
+          <select class="form-select w-50 d-block m-auto" id="mediaRating{{item.id}}">
+            <option value="1">1 star</option>
+            <option value="2">2 stars</option>
+            <option value="3">3 stars</option>
+            <option value="4">4 stars</option>
+            <option value="5">5 stars</option>
+          </select>
+          <button type="button" class="btn btn-warning mt-2 m-auto d-block" (click)="rate(item.id)">Rate movie/tv
+            show</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

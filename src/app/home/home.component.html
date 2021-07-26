@@ -1,0 +1,62 @@
+<div class="row justify-content-center">
+  <div class="col-lg-5 my-5">
+    <input type="text" class="form-control" placeholder="{{!contentType ? 'Search movies': 'Search tv shows'}}"
+      [(ngModel)]="searchInput" (ngModelChange)="getMediaBySearch()">
+    <div class="alert alert-secondary mt-2" role="alert">
+      Accepted phrases for search are:
+      "[x] stars", "at least [x] stars", "less than [x] stars, after [xxxx]", "before [xxxx]", "older than [x]
+      years"
+    </div>
+    <!-- <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div> -->
+    <div class="form-check form-switch mt-3">
+      <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" [(ngModel)]="contentType"
+        (ngModelChange)="switchMedia()">
+      <label class="form-check-label" for="flexSwitchCheckDefault">
+        {{!contentType ? 'Load TV shows': 'Load movies'}}</label>
+    </div>
+
+  </div>
+</div>
+
+<div class="row">
+  <h2 class="text-center">{{contentType ? 'TV shows': 'Movies'}}</h2>
+  <div class="spinner-border text-primary m-auto mt-3" role="status" *ngIf="loader">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+
+<div class="row justify-content-center mt-5" *ngIf="!loader">
+  <div class="col-lg-2 mb-4" *ngFor="let item of media">
+    <div class="card">
+      <img src="{{apiUrl}}/MediaImages/{{item.coverImage}}" class="card-img-top" style="height: 300px;">
+      <div class="card-body">
+        <h5 class="card-title">{{item.title}}</h5>
+        <p class="card-text" style="height: 150px; overflow: auto;">
+          {{item.description}}
+        </p>
+        <p>Release date: {{item.releaseDate | date:'d.MM.y'}}</p>
+        <p>
+          Cast:
+        </p>
+        <ul>
+          <li *ngFor="let ma of item.mediaActors">
+            {{ma.actor.name}}
+            {{ma.actor.surname}}
+          </li>
+        </ul>
+        <p class="fw-bold">Overall rating:
+          {{item.overallRating}}
+          <i class="fas fa-star text-warning"></i>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row my-3" *ngIf="!loader">
+  <div class="col-12">
+    <p class="text-center" *ngIf="media.length == 0">No {{!contentType ? 'movies' : 'tv shows'}} in database...</p>
+    <button type="submit" class="btn btn-primary d-block m-auto" id="loadMoreButton" *ngIf="media.length > 0"
+      (click)="getMedia()">View more
+      results</button>
+  </div>
+</div>
